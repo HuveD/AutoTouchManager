@@ -1,14 +1,16 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+group = 'com.github.HuveD'
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.1"
+    compileSdkVersion androidVersions.compileSdkVersion
+    buildToolsVersion androidVersions.buildToolsVersion
 
     defaultConfig {
-        minSdkVersion 24
-        targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion androidVersions.minSdkVersion
+        targetSdkVersion androidVersions.targetSdkVersion
+        versionCode projectConfig.versionCode
+        versionName projectConfig.versionName
     }
 
     buildTypes {
@@ -20,7 +22,7 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.github.HuveD:AsynchronousTaskManager:1.1.1'
-    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation dependenciesList.asynchronousTaskManager
+    implementation dependenciesList.supportAppcompat
+    implementation dependenciesList.constraint
 }

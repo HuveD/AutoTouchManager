@@ -1,15 +1,17 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.1"
+    compileSdkVersion androidVersions.compileSdkVersion
+    buildToolsVersion androidVersions.buildToolsVersion
+
     defaultConfig {
         applicationId "kr.co.huve.AutoTouchManager"
-        minSdkVersion 24
-        targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion androidVersions.minSdkVersion
+        targetSdkVersion androidVersions.targetSdkVersion
+        versionCode projectConfig.versionCode
+        versionName projectConfig.versionName
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -19,7 +21,6 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    compile project(path: ':AutoTouchManagerLib')
+    implementation project(path: ':AutoTouchManagerLib')
+    implementation dependenciesList.supportAppcompat
 }
