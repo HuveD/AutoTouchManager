@@ -21,6 +21,12 @@ public class ExampleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         background = findViewById(R.id.background);
+
+        // Optional, if you want to change the permission text, call the #initializeDialogResource(String, String, String).
+        // Default title          -> Setting accessibility permissions
+        // Default content        -> Accessibility is required
+        // Default button content -> OK
+        AutoTouchManager.getInstance().initializeDialogResource("Permission Dialog Title", "Permission Dialog Content", "Permission Dialog Button");
     }
 
     //region sample of usage
