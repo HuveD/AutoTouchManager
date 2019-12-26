@@ -1,6 +1,8 @@
 <resources>
-    <string name="app_name">AutoTouchManager</string>
     <string name="check_accessibility_permission_title">Setting accessibility permissions</string>
     <string name="check_accessibility_permission_content">"Accessibility is required"</string>
     <string name="confirm">"OK"</string>
+
+    <string name="require_accessibility_permission">Allow to permission about \'Accessibility service\'</string>
+    <string name="no_preset">You must set the preset about the auto touch.</string>
 </resources>
