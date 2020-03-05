@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.accessibility.AccessibilityManager;
 
 import androidx.annotation.NonNull;
@@ -22,6 +23,7 @@ import kr.co.huve.AutoTouchManagerLib.Data.TouchData;
 import kr.co.huve.autotouchmanager.R;
 
 public class AutoTouchManager {
+    final static String TAG = AutoTouchManager.class.getSimpleName();
 
     // The touch event preset.
     private List<TouchData> preset;
@@ -67,6 +69,7 @@ public class AutoTouchManager {
     public boolean play(@NonNull final Context context) {
         if (isAvailableAccessibilityService(context)) {
             if (preset == null || preset.size() == 0) {
+                outErrorLog(context, R.string.no_preset);
                 return false;
             } else {
                 // Generate the touch event.
@@ -88,6 +91,7 @@ public class AutoTouchManager {
                 return true;
             }
         } else {
+            outErrorLog(context, R.string.no_preset);
             showPermissionDialog(context);
             return false;
         }
@@ -109,10 +113,11 @@ public class AutoTouchManager {
                 }
             }
         }
+        outErrorLog(context, R.string.require_accessibility_permission);
         return false;
     }
 
-    private void showPermissionDialog(@NonNull final Context context) {
+    private void showPermissionDialog(final Context context) {
         // Check custom dialog text
         boolean hasCustomDialogText = dialogTitle.length() != 0 && dialogContent.length() != 0 && dialogButtonContent.length() != 0;
 
@@ -133,11 +138,12 @@ public class AutoTouchManager {
      * Generate the home button click event.
      */
     public boolean performHomeButtonClick(AppCompatActivity activityContext) {
-        if (TouchSimulateService.getInstance() != null) {
+        if (isAvailableAccessibilityService(activityContext)) {
             TouchSimulateService.getInstance().performGlobalAction(AccessibilityService.GLOBAL_ACTION_HOME);
             return true;
         } else {
             showPermissionDialog(activityContext);
+            outErrorLog(activityContext, R.string.require_accessibility_permission);
             return false;
         }
     }
@@ -146,12 +152,22 @@ public class AutoTouchManager {
      * Generate the back button click event.
      */
     public boolean performBackButtonClick(AppCompatActivity activityContext) {
-        if (TouchSimulateService.getInstance() != null) {
+        if (isAvailableAccessibilityService(activityContext)) {
             TouchSimulateService.getInstance().performGlobalAction(AccessibilityService.GLOBAL_ACTION_BACK);
             return true;
         } else {
             showPermissionDialog(activityContext);
+            outErrorLog(activityContext, R.string.require_accessibility_permission);
             return false;
+        }
+    }
+
+    private void outErrorLog(@NonNull Context context, int res) {
+        final String err = context.getString(res);
+        if (onErrorListener != null) {
+            onErrorListener.onError(err);
+        } else {
+            Log.e(TAG, err);
         }
     }
 
