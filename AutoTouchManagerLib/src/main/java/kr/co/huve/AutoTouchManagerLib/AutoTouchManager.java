@@ -98,7 +98,7 @@ public class AutoTouchManager {
      *
      * @return Whether the AccessibilityService is available.
      */
-    private boolean isAvailableAccessibilityService(@NonNull Context context) {
+    public boolean isAvailableAccessibilityService(@NonNull Context context) {
         AccessibilityManager accessibilityManager = (AccessibilityManager) context.getSystemService(Context.ACCESSIBILITY_SERVICE);
         if (accessibilityManager != null) {
             List<AccessibilityServiceInfo> list = accessibilityManager.getEnabledAccessibilityServiceList(AccessibilityServiceInfo.DEFAULT);
