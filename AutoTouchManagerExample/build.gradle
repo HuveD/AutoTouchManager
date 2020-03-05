@@ -21,6 +21,6 @@ android {
 }
 
 dependencies {
-    implementation project(path: ':AutoTouchManagerLib')
+    implementation 'com.github.HuveD:AutoTouchManager:1.0.0'
     implementation dependenciesList.supportAppcompat
 }

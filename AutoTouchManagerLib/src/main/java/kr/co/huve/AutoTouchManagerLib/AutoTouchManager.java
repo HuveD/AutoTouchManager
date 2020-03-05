@@ -66,10 +66,10 @@ public class AutoTouchManager {
      *
      * @return Is success to dispatch event.
      */
-    public boolean play(@NonNull final AppCompatActivity activityContext) {
-        if (isAvailableAccessibilityService(activityContext)) {
+    public boolean play(@NonNull final Context context) {
+        if (isAvailableAccessibilityService(context)) {
             if (preset == null || preset.size() == 0) {
-                outErrorLog(activityContext, R.string.no_preset);
+                outErrorLog(context, R.string.no_preset);
                 return false;
             } else {
                 // Generate the touch event.
@@ -91,8 +91,8 @@ public class AutoTouchManager {
                 return true;
             }
         } else {
-            outErrorLog(activityContext, R.string.require_accessibility_permission);
-            showPermissionDialog(activityContext);
+            outErrorLog(context, R.string.no_preset);
+            showPermissionDialog(context);
             return false;
         }
     }
@@ -102,7 +102,7 @@ public class AutoTouchManager {
      *
      * @return Whether the AccessibilityService is available.
      */
-    private boolean isAvailableAccessibilityService(@NonNull Context context) {
+    public boolean isAvailableAccessibilityService(@NonNull Context context) {
         AccessibilityManager accessibilityManager = (AccessibilityManager) context.getSystemService(Context.ACCESSIBILITY_SERVICE);
         if (accessibilityManager != null) {
             List<AccessibilityServiceInfo> list = accessibilityManager.getEnabledAccessibilityServiceList(AccessibilityServiceInfo.DEFAULT);
@@ -117,19 +117,19 @@ public class AutoTouchManager {
         return false;
     }
 
-    private void showPermissionDialog(final AppCompatActivity activityContext) {
+    private void showPermissionDialog(final Context context) {
         // Check custom dialog text
         boolean hasCustomDialogText = dialogTitle.length() != 0 && dialogContent.length() != 0 && dialogButtonContent.length() != 0;
 
         // Make dialog and show dialog
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activityContext);
-        dialogBuilder.setTitle(hasCustomDialogText ? dialogTitle : activityContext.getString(R.string.check_accessibility_permission_title));
-        dialogBuilder.setMessage(hasCustomDialogText ? dialogContent : activityContext.getString(R.string.check_accessibility_permission_content));
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+        dialogBuilder.setTitle(hasCustomDialogText ? dialogTitle : context.getString(R.string.check_accessibility_permission_title));
+        dialogBuilder.setMessage(hasCustomDialogText ? dialogContent : context.getString(R.string.check_accessibility_permission_content));
         dialogBuilder.setCancelable(false);
-        dialogBuilder.setPositiveButton(hasCustomDialogText ? dialogButtonContent : activityContext.getString(R.string.confirm), new DialogInterface.OnClickListener() {
+        dialogBuilder.setPositiveButton(hasCustomDialogText ? dialogButtonContent : context.getString(R.string.confirm), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 // Check permission
-                activityContext.startActivity(new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS));
+                context.startActivity(new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS));
             }
         }).create().show();
     }
