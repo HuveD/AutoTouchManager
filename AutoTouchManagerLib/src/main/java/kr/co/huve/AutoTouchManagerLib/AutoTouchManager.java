@@ -1,13 +1,11 @@
 package kr.co.huve.AutoTouchManagerLib;
 
 import android.accessibilityservice.AccessibilityService;
-import android.accessibilityservice.AccessibilityServiceInfo;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.provider.Settings;
 import android.util.Log;
-import android.view.accessibility.AccessibilityManager;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -103,15 +101,26 @@ public class AutoTouchManager {
      * @return Whether the AccessibilityService is available.
      */
     public boolean isAvailableAccessibilityService(@NonNull Context context) {
-        AccessibilityManager accessibilityManager = (AccessibilityManager) context.getSystemService(Context.ACCESSIBILITY_SERVICE);
-        if (accessibilityManager != null) {
-            List<AccessibilityServiceInfo> list = accessibilityManager.getEnabledAccessibilityServiceList(AccessibilityServiceInfo.DEFAULT);
-            for (int i = 0; i < list.size(); i++) {
-                AccessibilityServiceInfo info = list.get(i);
-                if (info.getResolveInfo().serviceInfo.packageName.equals(context.getPackageName())) {
-                    return true;
+        int accessibilityEnabled;
+        try {
+            accessibilityEnabled = Settings.Secure.getInt(
+                    context.getContentResolver(),
+                    android.provider.Settings.Secure.ACCESSIBILITY_ENABLED);
+            if (accessibilityEnabled == 1) {
+                String settingValue = Settings.Secure.getString(
+                        context.getContentResolver(),
+                        Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES);
+                if (settingValue != null) {
+                    String[] packageList = settingValue.split(":");
+                    for (String packageName : packageList) {
+                        if (packageName.contains(context.getPackageName())) {
+                            return true;
+                        }
+                    }
                 }
             }
+        } catch (Settings.SettingNotFoundException e) {
+            // can't find accessibility service.
         }
         outErrorLog(context, R.string.require_accessibility_permission);
         return false;
