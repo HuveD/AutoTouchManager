@@ -5,7 +5,7 @@ android {
     buildToolsVersion androidVersions.buildToolsVersion
 
     defaultConfig {
-        applicationId "kr.co.huve.AutoTouchManager"
+        applicationId "kr.co.huve.AutoTouchExample"
         minSdkVersion androidVersions.minSdkVersion
         targetSdkVersion androidVersions.targetSdkVersion
         versionCode projectConfig.versionCode
@@ -21,6 +21,6 @@ android {
 }
 
 dependencies {
-    implementation 'com.github.HuveD:AutoTouchManager:1.0.0'
     implementation dependenciesList.supportAppcompat
+    implementation project(path: ':AutoTouchManagerLib')
 }

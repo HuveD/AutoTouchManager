@@ -3,6 +3,8 @@ package kr.co.huve.AutoTouchManagerLib;
 import android.accessibilityservice.AccessibilityService;
 import android.accessibilityservice.AccessibilityServiceInfo;
 import android.accessibilityservice.GestureDescription;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Path;
 import android.view.accessibility.AccessibilityEvent;
 
@@ -13,9 +15,11 @@ public class TouchSimulateService extends AccessibilityService {
     public void onServiceConnected() {
         if (instance == null) {
             instance = this;
+
+            // 액티비티의 비정상 에러 탐지
+            Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler(this));
         }
         AccessibilityServiceInfo info = new AccessibilityServiceInfo();
-
         info.eventTypes = AccessibilityEvent.TYPES_ALL_MASK;
         info.feedbackType = AccessibilityServiceInfo.DEFAULT | AccessibilityServiceInfo.FEEDBACK_HAPTIC;
         info.notificationTimeout = 100; // millisecond
@@ -61,6 +65,25 @@ public class TouchSimulateService extends AccessibilityService {
     }
 
     //endregion Common method field
+
+    //region Exception Handler
+
+    private class UncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
+
+        private Context context;
+
+        private UncaughtExceptionHandler(Context context) {
+            this.context = context;
+        }
+
+        @Override
+        public void uncaughtException(Thread thread, Throwable ex) {
+            stopService(new Intent(context, TouchSimulateService.class));
+            System.exit(0);
+        }
+    }
+
+    //endregion Exception Handler
 
     //region Getter & Setter
 
