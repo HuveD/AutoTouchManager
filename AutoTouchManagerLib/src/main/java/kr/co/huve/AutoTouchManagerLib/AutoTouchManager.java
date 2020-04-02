@@ -41,6 +41,9 @@ public class AutoTouchManager {
      * @return The singleton instance.
      */
     public static AutoTouchManager getInstance() {
+        if (AutoTouchManagerHolder.instance == null) {
+            AutoTouchManagerHolder.instance = new AutoTouchManager();
+        }
         return AutoTouchManagerHolder.instance;
     }
 
@@ -225,7 +228,7 @@ public class AutoTouchManager {
     //region Lazy singleton holder
 
     private static class AutoTouchManagerHolder {
-        private static final AutoTouchManager instance = new AutoTouchManager();
+        private static AutoTouchManager instance = new AutoTouchManager();
     }
 
     //endregion Lazy singleton holder
