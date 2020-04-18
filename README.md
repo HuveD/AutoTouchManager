@@ -33,7 +33,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.HuveD:AutoTouchManager:1.0.0'
+    implementation 'com.github.HuveD:AutoTouchManager:1.1.0'
 }
 ```
 
