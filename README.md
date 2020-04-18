@@ -1,6 +1,6 @@
 # AutoTouchManager
 
-![ReleaseVer](https://img.shields.io/badge/Release-1.0.0-blueviolet)
+![ReleaseVer](https://img.shields.io/badge/Release-1.1.0-blueviolet)
 ![AndroidMinVer](https://img.shields.io/badge/API-24+-ff69b4)
 ![License](https://img.shields.io/badge/License-MIT-brightgreen)
 
