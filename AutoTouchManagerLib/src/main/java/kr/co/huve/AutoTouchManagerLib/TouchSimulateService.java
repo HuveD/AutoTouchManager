@@ -64,6 +64,28 @@ public class TouchSimulateService extends AccessibilityService {
         return clickBuilder.build();
     }
 
+    /**
+     * Create a double tab gesture event to simulate touch event.
+     *
+     * @param x The X coordinate to generate the touch event.
+     * @param y The Y coordinate to generate the touch event.
+     * @return The gesture to simulate touch event.
+     */
+    GestureDescription createDoubleTab(float x, float y) {
+        final int DURATION = 1;
+        Path oneTabPath = new Path();
+        Path twoTabPath = new Path();
+        oneTabPath.moveTo(x, y);
+        twoTabPath.moveTo(x, y);
+
+        GestureDescription.Builder clickBuilder = new GestureDescription.Builder();
+        GestureDescription.StrokeDescription oneTab = new GestureDescription.StrokeDescription(oneTabPath, 0, DURATION);
+        GestureDescription.StrokeDescription twoTab = new GestureDescription.StrokeDescription(twoTabPath, 300, DURATION);
+        clickBuilder.addStroke(oneTab);
+        clickBuilder.addStroke(twoTab);
+        return clickBuilder.build();
+    }
+
     //endregion Common method field
 
     //region Exception Handler

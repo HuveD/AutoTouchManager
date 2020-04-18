@@ -1,9 +1,13 @@
 package kr.co.huve.AutoTouchExample;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,9 +15,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 
 import kr.co.huve.AutoTouchManagerLib.AutoTouchManager;
+import kr.co.huve.AutoTouchManagerLib.Data.DoubleTabData;
 import kr.co.huve.AutoTouchManagerLib.Data.TouchData;
 
 public class ExampleActivity extends AppCompatActivity {
+    private GestureDetector gestureDetector;
     private View background;
 
     @Override
@@ -21,12 +27,18 @@ public class ExampleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         background = findViewById(R.id.background);
+        gestureDetector = new GestureDetector(this, new GestureListener(this));
 
         // Optional, if you want to change the permission text, call the #initializeDialogResource(String, String, String).
         // Default title          -> Setting accessibility permissions
         // Default content        -> Accessibility is required
         // Default button content -> OK
         AutoTouchManager.getInstance().initializeDialogResource("Permission Dialog Title", "Permission Dialog Content", "Permission Dialog Button");
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        return gestureDetector.onTouchEvent(event);
     }
 
     //region sample of usage
@@ -49,6 +61,18 @@ public class ExampleActivity extends AppCompatActivity {
         list.add(new TouchData(100, 600));
         // 'Touch 7' occurs after 'Touch 6' finished.
         list.add(new TouchData(100, 700));
+
+        // Set the touch preset on the AutoTouchManager.
+        AutoTouchManager.getInstance().setTouchEventPreset(list);
+        // Play the touch preset.
+        AutoTouchManager.getInstance().play(this);
+    }
+
+    public void onClickSampleDoubleTouch(View view) {
+        // Back button event occur immediately.
+        ArrayList<TouchData> list = new ArrayList<>();
+        // 'Touch 1' occurs immediately.
+        list.add(new DoubleTabData(100, 600));
 
         // Set the touch preset on the AutoTouchManager.
         AutoTouchManager.getInstance().setTouchEventPreset(list);
@@ -156,6 +180,23 @@ public class ExampleActivity extends AppCompatActivity {
     //endregion sample of usage
 
     //region Click event field
+    private static class GestureListener extends GestureDetector.SimpleOnGestureListener {
+
+        private Context context;
+
+        public GestureListener(Context context) {
+            this.context = context;
+        }
+
+        // event when double tap occurs
+        @Override
+        public boolean onDoubleTap(MotionEvent e) {
+            float x = e.getX();
+            float y = e.getY();
+            Toast.makeText(context, ("Double Tab at (" + x + "," + y + ")"), Toast.LENGTH_SHORT).show();
+            return true;
+        }
+    }
 
     public void onClickSampleTouch(View view) {
         sampleAutoTouch();

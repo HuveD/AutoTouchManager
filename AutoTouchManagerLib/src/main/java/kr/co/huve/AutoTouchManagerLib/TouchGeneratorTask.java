@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 
 import java.util.List;
 
+import kr.co.huve.AutoTouchManagerLib.Data.DoubleTabData;
 import kr.co.huve.AutoTouchManagerLib.Data.TouchData;
 
 public class TouchGeneratorTask implements Runnable {
@@ -25,15 +26,23 @@ public class TouchGeneratorTask implements Runnable {
     public void run() {
         for (TouchData event : data) {
             try {
+                // Wait delay
                 Thread.sleep(event.getDelay());
+
+                // Create the gesture description
+                GestureDescription gestureDescription;
+                if (event instanceof DoubleTabData) {
+                    gestureDescription = TouchSimulateService.getInstance().createDoubleTab(event.getScreenX(), event.getScreenY());
+                } else {
+                    gestureDescription = TouchSimulateService.getInstance().createClick(event.getScreenX(), event.getScreenY());
+                }
+                TouchSimulateService.getInstance().dispatchGesture(gestureDescription, callback, null);
+                if (event.getRunnable() != null) {
+                    mainHandler.post(event.getRunnable());
+                }
             } catch (InterruptedException e) {
                 isCanceled = true;
                 break;
-            }
-            GestureDescription gestureDescription = TouchSimulateService.getInstance().createClick(event.getScreenX(), event.getScreenY());
-            TouchSimulateService.getInstance().dispatchGesture(gestureDescription, callback, null);
-            if (event.getRunnable() != null) {
-                mainHandler.post(event.getRunnable());
             }
         }
     }

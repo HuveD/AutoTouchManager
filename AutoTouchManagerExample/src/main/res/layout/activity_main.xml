@@ -12,6 +12,13 @@
         android:onClick="onClickSampleTouch"
         android:text="Sample Touch" />
 
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onClickSampleDoubleTouch"
+        android:text="Sample Double Touch" />
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

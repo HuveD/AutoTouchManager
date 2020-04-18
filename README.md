@@ -15,6 +15,7 @@
 	1. [Gradle](#gradle-setup)
 3. [Simple Usage](#simple-usage)
 4. [Types of TouchData](#type-constructor)
+4. [Types of DoubleTabData](#type2-constructor)
 2. [Example Source](#example-source)
 4. [License](#free)
 
@@ -134,6 +135,48 @@ AutoTouchManager.getInstance().setOnErrorListener(onErrorListener);
 
 <br/>
 
+<h2 id="type2-constructor">👩🏻‍💻 Types of DoubleTabData 👆🏻</h2>
+
+##### 1. DoubleTabData(float, float)
+##### 1st params
+- The x coordinate of screen anticipated occurring the touch.
+##### 2nd params
+- The y coordinate of screen anticipated occurring the touch.
+
+<br>
+
+##### 2. DoubleTabData(float, float, int)
+##### 1st params
+- The x coordinate of screen anticipated occurring the touch.
+##### 2nd params
+- The y coordinate of screen anticipated occurring the touch.
+##### 3rd params
+- The delay time until the touch occurred. For example, if you set the time at 3000, the Auto touch will occur after 3 seconds.
+
+<br>
+
+##### 3. DoubleTabData(float, float, Runnable)
+##### 1st params
+- The x coordinate of screen anticipated occurring the touch.
+##### 2nd params
+- The y coordinate of screen anticipated occurring the touch.
+##### 3rd params
+- This Runnable execute after 'Auto Touch' finished.
+
+<br>
+
+##### 4. DoubleTabData(float, float, int, Runnable)
+##### 1st params
+- The x coordinate of screen anticipated occurring the touch.
+##### 2nd params
+- The y coordinate of screen anticipated occurring the touch.
+##### 3rd params
+- The delay time until the touch occurred. For example, if you set the time at 3000, the Auto touch will occur after 3 seconds.
+##### 4th params
+- This Runnable execute after 'Auto Touch' finished.
+
+<br/>
+
 <h2 id="example-source">👉🏻 Example Source</h2>
 
 If you want more details, look at the [source code](https://github.com/HuveD/AutoTouchManager/blob/master/AutoTouchManagerExample/src/main/java/kr/co/huve/AutoTouchExample/ExampleActivity.java).
@@ -153,7 +196,7 @@ The source code has an example of usage, like below.
 
 MIT License
 
-Copyright (c) 2019 JeongHyeon Yoo
+Copyright (c) 2020 JeongHyeon Yoo
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
